@@ -164,6 +164,8 @@ impl EditorView {
             decorations.add_decoration(line_decoration);
         }
 
+        let view_offset = doc.view_offset(view.id);
+
         let syntax_highlights =
             Self::doc_syntax_highlights(doc, view_offset.anchor, inner.height, theme);
 
