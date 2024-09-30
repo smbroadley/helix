@@ -2300,7 +2300,7 @@ fn run_shell_command(
             move |editor: &mut Editor, compositor: &mut Compositor| {
                 if !output.is_empty() {
                     let contents = ui::Markdown::new(
-                        format!("```sh\n{}\n```", output),
+                        format!("```sh\n{}\n```", output.trim_end()),
                         editor.syn_loader.clone(),
                     );
                     let popup = Popup::new("shell", contents).position(Some(
@@ -3032,7 +3032,7 @@ pub const TYPABLE_COMMAND_LIST: &[TypableCommand] = &[
     TypableCommand {
         name: "tree-sitter-subtree",
         aliases: &["ts-subtree"],
-        doc: "Display tree sitter subtree under cursor, primarily for debugging queries.",
+        doc: "Display the smallest tree-sitter subtree that spans the primary selection, primarily for debugging queries.",
         fun: tree_sitter_subtree,
         signature: CommandSignature::none(),
     },

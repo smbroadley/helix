@@ -1044,8 +1044,8 @@ lines.
  1. Move the cursor to the line marked '-->' below.
  2. Select both lines with xx or 2x.
  3. Type s to select, type "would" and enter.
- 4. Use ( and ) to cycle the primary selection and remove the
-    very second "would" with Alt-, .
+ 4. Use ( and ) to cycle the primary selection and deselect
+    the second "would" with Alt-, .
  5. Type c "wood" to change the remaining "would"s to "wood".
 
  --> How much would would a wouldchuck chuck
@@ -1462,7 +1462,7 @@ letters! that is not good grammar. you can fix this.
 
  Still from hello2, press Ctrl-w H to swap with the split on the
  left: now hello2 is on the left and the tutor is on the top
- right. After Ctrl-w you can use HJKL to split with the buffer
+ right. After Ctrl-w you can use HJKL to swap with the buffer
  on the left / below / above / on the right.
 
  Move back to the tutor split, and press Ctrl-w o to only keep
