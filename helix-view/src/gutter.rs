@@ -83,7 +83,7 @@ pub fn diagnostic<'doc>(
                     Some(Severity::Info) => info,
                     Some(Severity::Hint) => hint,
                 };
-                write!(out, "{}", indicator).ok();
+                out.push(indicator);
                 style
             })
         },
