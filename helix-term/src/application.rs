@@ -132,6 +132,15 @@ impl Application {
             workspace_trust,
         );
         Self::load_configured_theme(&mut editor, &config.load(), &mut terminal, theme_mode);
+        if let Some(lang) = &args.default_lang {
+            editor.set_default_language_by_language_id(lang);
+        }
+        Self::load_configured_theme(
+            &mut editor,
+            &config.load(),
+            terminal.backend().supports_true_color(),
+            theme_mode,
+        );
 
         let keys = Box::new(Map::new(Arc::clone(&config), |config: &Config| {
             &config.keys

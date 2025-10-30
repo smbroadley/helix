@@ -1322,6 +1322,7 @@ pub struct Editor {
     pub last_cwd: Option<PathBuf>,
     pub dir_stack: VecDeque<PathBuf>,
 
+    pub default_lang: Option<String>,
     pub exit_code: i32,
 
     pub config_events: (UnboundedSender<ConfigEvent>, UnboundedReceiver<ConfigEvent>),
@@ -1458,6 +1459,7 @@ impl Editor {
             last_motion: None,
             last_completion: None,
             last_cwd: None,
+            default_lang: None,
             config,
             auto_pairs,
             exit_code: 0,
@@ -2064,6 +2066,13 @@ impl Editor {
     fn new_file_from_document(&mut self, action: Action, doc: Document) -> DocumentId {
         let id = self.new_document(doc);
         self.switch(id, action);
+        if let Some(lang) = &self.default_lang {
+            let doc = doc_mut!(self, &id);
+            let loader = arc_swap::access::DynAccess::load(&self.syn_loader);
+            if doc.set_language_by_language_id(lang, &*loader).is_err() {
+                log::warn!("Failed to set default language: {}", lang);
+            }
+        }
         id
     }
 
@@ -2634,6 +2643,10 @@ impl Editor {
         let (view, doc) = current!(self);
         doc.set_selection(view_id, selection);
         view.ensure_cursor_in_view_center(doc, self.config.load().scrolloff);
+    }
+    
+    pub fn set_default_language_by_language_id(&mut self, lang_id: &str) {
+        self.default_lang = Some(lang_id.into());
     }
 }
 

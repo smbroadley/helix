@@ -20,6 +20,7 @@ pub struct Args {
     pub config_file: Option<PathBuf>,
     pub files: IndexMap<PathBuf, Vec<Position>>,
     pub working_directory: Option<PathBuf>,
+    pub default_lang: Option<String>,
 }
 
 impl Args {
@@ -90,6 +91,12 @@ impl Args {
                     None => {
                         anyhow::bail!("--working-dir must specify an initial working directory")
                     }
+                },
+                "-l" | "--lang" => match argv.next().as_deref() {
+                    Some(lang) if !lang.starts_with('-') => {
+                        args.default_lang = Some(lang.into());
+                    }
+                    _ => anyhow::bail!("--lang must have a language specified"),
                 },
                 arg if arg.starts_with("--") => {
                     anyhow::bail!("unexpected double dash argument: {}", arg)
